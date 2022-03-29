@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "create-full-stack",
+  "name": "share-me",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

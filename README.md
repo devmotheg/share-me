@@ -1,4 +1,6 @@
-# Create Full Stack
+# Share Me
+
+Very simple & straight forward social media app, idea from JavaScript Mastery...
 
 ## Author
 
