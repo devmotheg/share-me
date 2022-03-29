@@ -13,6 +13,8 @@ import User from "../../../../../models/user-model";
 import Pin from "../../../../../models/pin-model";
 import Save from "../../../../../models/save-model";
 import globalErrorHandler from "../../../../../lib/global-error-handler";
+import AppError from "../../../../../lib/app-error";
+import APIFeatures from "../../../../../lib/api-features";
 
 const handler = async (
 	req: NextApiRequestWithMiddleware,
@@ -26,12 +28,28 @@ const handler = async (
 			case "GET": {
 				const user = await User.findOne({ _p: req.query.userId });
 
+				if (!user) throw new AppError("The requested user doesn't exist", 404);
+
 				let pins = [];
 				if (req.query.kind === "created") {
-					pins = await Pin.find({ userId: user._id }).populate("userId");
+					pins = await new APIFeatures(
+						Pin.find({ userId: user._id }).populate("userId"),
+						req.query
+					)
+						.sort()
+						.paginate()
+						.execute();
 				} else if (req.query.kind === "saved") {
 					pins = await Promise.all(
-						(await Save.find({ userId: user._id }).populate("pinId"))
+						(
+							await new APIFeatures(
+								Save.find({ userId: user._id }).populate("pinId"),
+								req.query
+							)
+								.sort()
+								.paginate()
+								.execute()
+						)
 							.map(s => s.pinId)
 							.map(async p => await p.populate("userId"))
 					);

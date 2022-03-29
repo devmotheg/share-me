@@ -19,6 +19,8 @@ const PinDelete = ({ pin }: PinDeleteProps) => {
 	let kind = "home";
 	if (router.query.categoryName) kind = "category";
 	if (router.query.pinId) kind = "pin";
+	if (router.query.title) kind = "search";
+	if (router.query.userId) kind = "user";
 
 	const queryClient = useQueryClient();
 

@@ -22,13 +22,14 @@ const breakpointColumnsObj = {
 	1536: 4,
 };
 
-const MasonryLayout = ({ pin, pins }: MasonryLayoutProps) => {
+const MasonryLayout = ({ pin, pins, active }: MasonryLayoutProps) => {
 	const router = useRouter();
 
 	let kind = "home";
 	if (router.query.categoryName) kind = "category";
 	if (router.query.pinId) kind = "pin";
 	if (router.query.title) kind = "search";
+	if (router.query.userId) kind = "user";
 
 	const {
 		hasNextPage,
@@ -45,6 +46,8 @@ const MasonryLayout = ({ pin, pins }: MasonryLayoutProps) => {
 			router.query.title,
 			pin?._id,
 			pin?.category,
+			router.query.userId,
+			active,
 		],
 		async ({ queryKey, pageParam = 1 }) => {
 			let endpoint = `/api/pins?page=${pageParam}`;
@@ -52,6 +55,8 @@ const MasonryLayout = ({ pin, pins }: MasonryLayoutProps) => {
 			if (queryKey[1] === "search") endpoint += `&title[regex]=^${queryKey[3]}`;
 			if (queryKey[1] === "pin")
 				endpoint += `&_id[ne]=${queryKey[4]}&category=${queryKey[5]}`;
+			if (queryKey[1] === "user")
+				endpoint = `/api/users/${queryKey[6]}/pins?kind=${queryKey[7]}`;
 
 			const res = await axios(endpoint);
 			return res.data.data.pins;
@@ -62,7 +67,7 @@ const MasonryLayout = ({ pin, pins }: MasonryLayoutProps) => {
 				if (!lastPage.length) return;
 				return allPages.length + 1;
 			},
-			initialData: { pages: [pins], pageParams: [1] },
+			initialData: pins.length ? { pages: [pins], pageParams: [1] } : undefined,
 		}
 	);
 
@@ -97,6 +102,8 @@ const MasonryLayout = ({ pin, pins }: MasonryLayoutProps) => {
 				<span className="block text-center text-3xl font-bold">
 					Couldn't fulfill the request
 				</span>
+			) : status === "loading" ? (
+				<Loading />
 			) : (
 				<Masonry
 					className="mx-auto flex max-w-7xl"

@@ -61,6 +61,10 @@ export type HomePageProps = {
 
 export type CategoryPageProps = HomePageProps;
 
+export type UserPageProps = HomePageProps & {
+	user: User;
+};
+
 export type UserPinPageProps = HomePageProps & {
 	pin: Pin;
 };
@@ -134,6 +138,7 @@ export type UploadButtonProps = {
 
 export type MasonryLayoutProps = HomePageProps & {
 	pin?: Pin;
+	active?: "created" | "saved";
 };
 
 export type AlertsListProps = {

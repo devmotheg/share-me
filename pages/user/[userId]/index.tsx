@@ -3,43 +3,19 @@
  * @link https://github.com/devmotheg
  */
 
-import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
-import { useQuery } from "react-query";
-import axios from "axios";
+import type { GetServerSideProps } from "next";
+import { useState } from "react";
 
-import type { NextPageWithAuth } from "../../../additional";
+import type { NextPageWithAuth, UserPageProps } from "../../../additional";
 import ProfileHeader from "../../../components/ProfileHeader";
 import Header from "../../../components/Header";
 import Aside from "../../../components/Aside";
 import MasonryLayout from "../../../components/MasonryLayout";
-import Loading from "../../../components/Loading";
-import { useAppContext } from "../../../contexts/AppProvider";
+import dbConnect from "../../../lib/db-connect";
+import UserModel from "../../../models/user-model";
 
-const User: NextPageWithAuth = () => {
-	const router = useRouter();
+const User: NextPageWithAuth = ({ user }: UserPageProps) => {
 	const [active, setActive] = useState<"created" | "saved">("created");
-	const { status, data, error } = useQuery(
-		["userPins", router.query.userId, active],
-		async ({ queryKey }) => {
-			const res = await axios(
-				`/api/users/${queryKey[1]}/pins?kind=${queryKey[2]}`
-			);
-			return res.data;
-		}
-	);
-	const { setAlertType, setAlertMessage, setShouldAlertRerender } =
-		useAppContext();
-
-	useEffect(() => {
-		if (status === "error") {
-			setShouldAlertRerender(true);
-			setAlertType("error");
-			setAlertMessage(
-				(error as any)?.response?.data?.message || (error as any)?.message
-			);
-		}
-	}, [status]);
 
 	return (
 		<>
@@ -49,19 +25,7 @@ const User: NextPageWithAuth = () => {
 				<div className="flex-grow space-y-6">
 					<ProfileHeader active={active} setActive={setActive} />
 					<div className="p-4">
-						{status === "error" ? (
-							<span className="block text-center text-3xl font-bold">
-								Couldn't fulfill the request
-							</span>
-						) : status === "loading" ? (
-							<Loading />
-						) : data.data.pins.length ? (
-							<MasonryLayout pins={data.data.pins} />
-						) : (
-							<span className="block text-center text-3xl font-bold">
-								No {active} pins found
-							</span>
-						)}
+						<MasonryLayout pins={[]} active={active} />
 					</div>
 				</div>
 			</main>
@@ -71,6 +35,23 @@ const User: NextPageWithAuth = () => {
 
 User.auth = {
 	usersOnly: true,
+};
+
+export const getServerSideProps: GetServerSideProps = async context => {
+	await dbConnect();
+
+	const user = await UserModel.findOne({ _p: context.query.userId });
+
+	if (!user)
+		return {
+			notFound: true,
+		};
+
+	return {
+		props: {
+			user,
+		},
+	};
 };
 
 export default User;
