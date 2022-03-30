@@ -85,6 +85,7 @@ export type ProfileButtonProps = {
 };
 
 export type ProfileHeaderProps = {
+	user: User;
 	active: "created" | "saved";
 	setActive: (active: "created" | "saved") => void;
 };

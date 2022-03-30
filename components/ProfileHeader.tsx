@@ -10,9 +10,7 @@ import { CgLogOff } from "react-icons/cg";
 import type { ProfileHeaderProps } from "../additional";
 import ProfileTab from "./ProfileTab";
 
-const ProfileHeader = ({ active, setActive }: ProfileHeaderProps) => {
-	const { data: session } = useSession();
-
+const ProfileHeader = ({ user, active, setActive }: ProfileHeaderProps) => {
 	return (
 		<div>
 			<div className="relative h-96">
@@ -31,10 +29,10 @@ const ProfileHeader = ({ active, setActive }: ProfileHeaderProps) => {
 			</div>
 			<div className="-translate-y-12">
 				<div className="mx-auto flex w-fit items-center overflow-hidden rounded-full bg-white shadow-lg">
-					<Image src={session?.user?.image!} width="90" height="90" />
+					<Image src={user?.image!} width="90" height="90" />
 				</div>
 				<span className="mt-1 block text-center text-3xl font-bold">
-					{session?.user?.name}
+					{user?.name}
 				</span>
 				<div className="mt-5 flex items-center justify-center gap-4">
 					<ProfileTab

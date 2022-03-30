@@ -23,7 +23,7 @@ const User: NextPageWithAuth = ({ user }: UserPageProps) => {
 			<main className="flex flex-col md:flex-row">
 				<Aside />
 				<div className="flex-grow space-y-6">
-					<ProfileHeader active={active} setActive={setActive} />
+					<ProfileHeader user={user} active={active} setActive={setActive} />
 					<div className="p-4">
 						<MasonryLayout pins={[]} active={active} />
 					</div>
