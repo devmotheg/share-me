@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import type { ChangeEvent } from "react";
 import { useState, useEffect } from "react";
-import { useMutation } from "react-query";
+import { useQueryClient, useMutation } from "react-query";
 import axios from "axios";
 
 import type { NextPageWithAuth } from "../../additional";
@@ -20,6 +20,7 @@ import categories from "../../data/categories";
 import { useAppContext } from "../../contexts/AppProvider";
 
 const NewPin: NextPageWithAuth = () => {
+	const queryClient = useQueryClient();
 	const router = useRouter();
 	const { data: session } = useSession();
 	const [state, setState] = useState({
@@ -47,6 +48,7 @@ const NewPin: NextPageWithAuth = () => {
 		},
 		{
 			onSuccess(data) {
+				queryClient.invalidateQueries(["pins"])
 				router.push(`/user/${session?.id}/pin/${data.data.pin._u}`);
 			},
 		}

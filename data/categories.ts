@@ -8,12 +8,9 @@ export default [
 	"finance",
 	"food",
 	"sports",
-	"horror",
 	"anime",
 	"cars",
-	"quotes",
 	"memes",
-	"nature",
 	"wallpaper",
 	"other",
 ];

@@ -24,7 +24,7 @@ const PinComments = ({ pin }: PinCommentsProps) => {
 		},
 		{
 			getNextPageParam(lastPage, allPages) {
-				if (!lastPage.length) return;
+				if (lastPage.length < 10) return;
 				return allPages.length + 1;
 			},
 			initialData: { pages: [pin.comments], pageParams: [1] },

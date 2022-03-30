@@ -51,6 +51,7 @@ const handler = async (
 								.execute()
 						)
 							.map(s => s.pinId)
+							.filter(p => !!p)
 							.map(async p => await p.populate("userId"))
 					);
 				}

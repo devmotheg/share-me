@@ -45,7 +45,7 @@ const handler = async (
 			case "DELETE": {
 				const pin = await Pin.findOneAndDelete({
 					userId: user._id,
-					pinId: req.query.pinId,
+					_id: req.query.pinId,
 				});
 				unlink(path.join(process.cwd(), `public/images/pins/${pin.image}`));
 

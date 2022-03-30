@@ -26,13 +26,15 @@ const PinDelete = ({ pin }: PinDeleteProps) => {
 
 	const mutation = useMutation<any, any, any>(
 		async deletedPin => {
-			const res = await axios.delete(`/api/pins/${deletedPin}`);
+			const res = await axios.delete(`/api/pins/${deletedPin.pinId}`);
 			return res.data;
 		},
 		{
 			onSuccess() {
+				if (router.query.pinId === pin._u) {
+					router.push("/");
+				}
 				queryClient.invalidateQueries(["pins", kind]);
-				if (kind === "pin" && router.query.pinId === pin._u) router.push("/");
 			},
 		}
 	);

@@ -18,7 +18,7 @@ class APIFeatures {
 	filter() {
 		const urlQueryCopy = JSON.parse(
 			JSON.stringify(this.urlQuery).replace(
-				/\blt|lte|gt|gte|ne|regex\b/g,
+				/\blt|lte|gt|gte|ne|regex|options\b/g,
 				match => `$${match}`
 			)
 		);

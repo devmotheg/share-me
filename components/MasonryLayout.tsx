@@ -52,7 +52,8 @@ const MasonryLayout = ({ pin, pins, active }: MasonryLayoutProps) => {
 		async ({ queryKey, pageParam = 1 }) => {
 			let endpoint = `/api/pins?page=${pageParam}`;
 			if (queryKey[1] === "category") endpoint += `&category=${queryKey[2]}`;
-			if (queryKey[1] === "search") endpoint += `&title[regex]=^${queryKey[3]}`;
+			if (queryKey[1] === "search")
+				endpoint += `&title[regex]=^${queryKey[3]}&title[options]=$i`;
 			if (queryKey[1] === "pin")
 				endpoint += `&_id[ne]=${queryKey[4]}&category=${queryKey[5]}`;
 			if (queryKey[1] === "user")
@@ -62,9 +63,8 @@ const MasonryLayout = ({ pin, pins, active }: MasonryLayoutProps) => {
 			return res.data.data.pins;
 		},
 		{
-			staleTime: 100000000,
 			getNextPageParam(lastPage, allPages) {
-				if (!lastPage.length) return;
+				if (lastPage.length < 10) return;
 				return allPages.length + 1;
 			},
 			initialData: pins.length ? { pages: [pins], pageParams: [1] } : undefined,
@@ -104,6 +104,10 @@ const MasonryLayout = ({ pin, pins, active }: MasonryLayoutProps) => {
 				</span>
 			) : status === "loading" ? (
 				<Loading />
+			) : !data?.pages[0].length ? (
+				<span className="block text-center text-3xl font-bold">
+					No {active ? active : null} pins found
+				</span>
 			) : (
 				<Masonry
 					className="mx-auto flex max-w-7xl"
