@@ -4,7 +4,7 @@
  */
 
 import Router from "next/router";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 
 import type { AuthFirewallProps } from "../additional";
 import Loading from "./Loading";
@@ -16,6 +16,8 @@ const AuthFirewall = ({ auth, children }: AuthFirewallProps) => {
 			if (auth.usersOnly) Router.push("/auth/signin");
 		},
 	});
+
+	if (session?.error) return signOut();
 
 	if (session?.user && auth.guestsOnly) Router.push("/");
 	else if (session?.user || auth.guestsOnly) return <>{children}</>;

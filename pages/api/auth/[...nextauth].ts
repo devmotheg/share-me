@@ -44,6 +44,8 @@ export default NextAuth({
 		},
 		async session({ session, token }) {
 			session.id = token.id;
+			if (!(await User.findOne({ _p: token.id })))
+				return { ...session, error: true };
 			return session;
 		},
 	},
