@@ -11,6 +11,9 @@
   "cacheDirectories": [
     ".next/cache"
   ],
+  "engines": {
+    "node": "^16"
+  },
   "dependencies": {
     "axios": "^0.26.1",
     "express": "^4.17.3",
