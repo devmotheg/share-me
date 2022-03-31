@@ -32,7 +32,7 @@ const PinCard = ({ pin }: PinCardProps) => {
 					ref={$img}
 					className="min-h-[8rem] w-full bg-white object-cover"
 					alt="pin image"
-					src={`/images/pins/${pin.image}`}
+					src={`/api/images/${pin.image}`}
 					crossOrigin="anonymous"
 					onClick={() => router.push(`/user/${pin.userId._p}/pin/${pin._u}`)}
 				/>

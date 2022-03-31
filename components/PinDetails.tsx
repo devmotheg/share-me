@@ -53,7 +53,7 @@ const PinDetails = ({ pin }: PinDetailsProps) => {
 			<img
 				ref={$img}
 				className="w-full rounded bg-white object-contain lg:w-3/6"
-				src={`/images/pins/${pin.image}`}
+				src={`/api/images/${pin.image}`}
 				alt="pin image"
 				crossOrigin="anonymous"
 			/>

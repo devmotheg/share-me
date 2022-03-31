@@ -12,5 +12,8 @@ module.exports = {
 	images: {
 		domains: ["lh3.googleusercontent.com"],
 	},
+	serverRuntimeConfig: {
+		PROJECT_ROOT: __dirname,
+	},
 	reactStrictMode: true,
 };
