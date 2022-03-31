@@ -58,8 +58,8 @@ const PinDetails = ({ pin }: PinDetailsProps) => {
 				crossOrigin="anonymous"
 			/>
 			<div className="w-full flex-grow">
-				<div className="my-2 flex items-center justify-between gap-4">
-					<div className="flex items-center gap-4">
+				<div className="my-2 flex flex-wrap items-center justify-center gap-4">
+					<div className="flex items-center gap-2">
 						<span className="opacity-80 transition hover:opacity-100">
 							<PinImageDownload $img={$img} />
 						</span>
@@ -67,8 +67,7 @@ const PinDetails = ({ pin }: PinDetailsProps) => {
 							<PinSave pin={pin} />
 						</span>
 					</div>
-
-					<div className="flex items-center gap-4">
+					<div className="flex items-center justify-end gap-2">
 						<PinImageLink
 							href={pin.destination}
 							additionalStyles="opacity-80 transition hover:opacity-100"
