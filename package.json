@@ -4,10 +4,13 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start -p $PORT"
   },
   "author": "Mohamed Muntasir",
   "license": "MIT",
+  "cacheDirectories": [
+    ".next/cache"
+  ],
   "dependencies": {
     "axios": "^0.26.1",
     "express": "^4.17.3",
