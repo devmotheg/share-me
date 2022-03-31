@@ -17,7 +17,7 @@ const AuthFirewall = ({ auth, children }: AuthFirewallProps) => {
 		},
 	});
 
-	if (session?.error) return signOut();
+	if (session?.error) signOut();
 
 	if (session?.user && auth.guestsOnly) Router.push("/");
 	else if (session?.user || auth.guestsOnly) return <>{children}</>;
