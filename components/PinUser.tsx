@@ -12,7 +12,7 @@ const PinUser = ({ user, text }: PinUserProps) => {
 	return (
 		<Link href={`/user/${user._p}`}>
 			<a className="my-3 flex w-fit items-center gap-2">
-				<div className="flex items-center overflow-hidden rounded-full bg-white shadow-md">
+				<div className="flex shrink-0 items-center overflow-hidden rounded-full bg-white shadow-md">
 					<Image src={user.image} alt="user image" width="38" height="38" />
 				</div>
 				<div>
