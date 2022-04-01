@@ -28,8 +28,8 @@ const MasonryLayout = ({ pin, pins, active }: MasonryLayoutProps) => {
 	let kind = "home";
 	if (router.query.categoryName) kind = "category";
 	if (router.query.pinId) kind = "pin";
+	else if (router.query.userId) kind = "user";
 	if (router.query.title) kind = "search";
-	if (router.query.userId) kind = "user";
 
 	const {
 		hasNextPage,
