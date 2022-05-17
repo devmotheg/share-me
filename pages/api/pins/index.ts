@@ -64,7 +64,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 				const cloudinaryResponse = await cloudinary.uploader.upload(
 					req.body.image,
 					{
-						upload_preset: "dev_setups",
+						upload_preset: "dev_setups_share-me",
 					}
 				);
 
