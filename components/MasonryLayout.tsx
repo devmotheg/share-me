@@ -57,8 +57,9 @@ const MasonryLayout = ({ pin, pins, active }: MasonryLayoutProps) => {
 			if (queryKey[1] === "pin")
 				endpoint += `&_id[ne]=${queryKey[4]}&category=${queryKey[5]}`;
 			if (queryKey[1] === "user")
-				endpoint = `/api/users/${queryKey[6]}/pins?kind=${queryKey[7]}`;
+				endpoint = `/api/users/${queryKey[6]}/pins?kind=${queryKey[7]}&page=${pageParam}`;
 
+			console.log(endpoint);
 			const res = await axios(endpoint);
 			return res.data.data.pins;
 		},

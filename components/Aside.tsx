@@ -18,7 +18,7 @@ const Aside = () => {
 
 	return (
 		<aside
-			className="fixed top-0 left-0 z-30 h-screen w-4/6 shrink-0 overflow-y-auto bg-white py-4 shadow-lg transition-all md:sticky md:w-fit md:!translate-y-0"
+			className="fixed top-0 left-0 z-30 h-full min-h-screen w-4/6 shrink-0 overflow-y-auto bg-white py-4 pr-3 shadow-lg transition-all md:sticky md:w-fit md:!translate-y-0"
 			style={{
 				transform: `translateX(${isAsideOpen ? 0 : -100}%)`,
 			}}>

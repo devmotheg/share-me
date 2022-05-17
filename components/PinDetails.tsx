@@ -5,6 +5,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useQueryClient, useMutation } from "react-query";
+import { Image } from "cloudinary-react";
 import axios from "axios";
 
 import type { PinDetailsProps } from "../additional";
@@ -50,12 +51,12 @@ const PinDetails = ({ pin }: PinDetailsProps) => {
 
 	return (
 		<div className="my-5 mx-auto flex max-w-4xl flex-col items-center gap-4 lg:flex-row">
-			<img
+			<Image
 				ref={$img}
 				className="w-full rounded bg-white object-contain lg:w-3/6"
-				src={`/api/images/${pin.image}`}
+				cloudName="devmotheg"
+				publicId={pin.image}
 				alt="pin image"
-				crossOrigin="anonymous"
 			/>
 			<div className="w-full flex-grow">
 				<div className="my-2 flex flex-wrap items-center justify-center gap-4">

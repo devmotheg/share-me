@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { FcExternal, FcRemoveImage } from "react-icons/fc";
 
 import type { UploadButtonProps } from "../additional";
+import { useAppContext } from "../contexts/AppProvider";
 
 const uploadFile = (): Promise<null | Blob> => {
 	const allowedTypes = {
@@ -34,16 +35,23 @@ const uploadFile = (): Promise<null | Blob> => {
 
 const UploadButton = ({ state, setState }: UploadButtonProps) => {
 	const [src, setSrc] = useState("");
+	const { setShouldAlertRerender, setAlertMessage, setAlertType } =
+		useAppContext();
+
+	const readAsImage = (
+		image: Blob,
+		cb: (result: string | ArrayBuffer | null) => void
+	) => {
+		if (!image) return;
+
+		const reader = new FileReader();
+		reader.readAsDataURL(image);
+
+		reader.onload = () => cb(reader.result);
+	};
 
 	useEffect(() => {
-		const readAsImage = async (image: Blob) => {
-			const reader = new FileReader();
-			reader.readAsDataURL(image);
-
-			reader.onload = () => setSrc(reader.result as string);
-		};
-
-		if (state.image) readAsImage(state.image);
+		if (state.image) setSrc(state.image);
 		else setSrc("");
 	});
 
@@ -66,7 +74,15 @@ const UploadButton = ({ state, setState }: UploadButtonProps) => {
 					type="button"
 					onClick={async () => {
 						const blob = await uploadFile();
-						setState({ ...state, image: blob });
+						if (!blob) {
+							setShouldAlertRerender(true);
+							setAlertType("error");
+							setAlertMessage("Invalid file, try again with another file");
+						}
+
+						readAsImage(blob as any, result =>
+							setState({ ...state, image: result })
+						);
 					}}>
 					<div className="mb-20 text-lg">
 						<FcExternal className="mx-auto h-8 w-8" />
@@ -74,7 +90,7 @@ const UploadButton = ({ state, setState }: UploadButtonProps) => {
 					</div>
 					<span className="text-neutral-500">
 						Recommendation: Use high-quality JPG, JPEG, SVG, PNG, GIF or TIFF
-						less than 20MB
+						less than 10MB
 					</span>
 				</button>
 			)}

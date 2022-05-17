@@ -8,6 +8,9 @@
 @tailwind utilities;
 
 @layer base {
+	body {
+		@apply min-w-[400px];
+	}
 	button {
 		@apply disabled:cursor-not-allowed;
 	}

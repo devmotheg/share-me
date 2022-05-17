@@ -35,7 +35,7 @@ const NewPin: NextPageWithAuth = () => {
 		any,
 		any,
 		{
-			data: FormData;
+			data: typeof state;
 			isInCorrectFilling: boolean;
 		}
 	>(
@@ -48,7 +48,7 @@ const NewPin: NextPageWithAuth = () => {
 		},
 		{
 			onSuccess(data) {
-				queryClient.invalidateQueries(["pins"])
+				queryClient.invalidateQueries(["pins"]);
 				router.push(`/user/${session?.id}/pin/${data.data.pin._u}`);
 			},
 		}
@@ -145,9 +145,7 @@ const NewPin: NextPageWithAuth = () => {
 										)
 											isInCorrectFilling = true;
 
-										const data = new FormData();
-										for (const key in state)
-											data.append(key, state[key as keyof typeof state]!);
+										const data = { ...state };
 										mutation.mutate({ data, isInCorrectFilling });
 									}}
 									disabled={mutation.isLoading}>

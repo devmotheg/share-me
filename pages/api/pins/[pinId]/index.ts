@@ -3,8 +3,6 @@
  * @link https://github.com/devmotheg
  */
 
-import { unlink } from "fs/promises";
-import path from "path";
 import { getToken } from "next-auth/jwt";
 
 import type {
@@ -47,7 +45,6 @@ const handler = async (
 					userId: user._id,
 					_id: req.query.pinId,
 				});
-				unlink(path.join(process.cwd(), `public/images/pins/${pin.image}`));
 
 				res.status(204).end();
 			}

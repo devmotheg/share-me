@@ -5,6 +5,7 @@
 
 import { useRouter } from "next/router";
 import { useRef } from "react";
+import { Image } from "cloudinary-react";
 
 import type { PinCardProps } from "../additional";
 import PinImageDownload from "./PinImageDownload";
@@ -28,12 +29,12 @@ const PinCard = ({ pin }: PinCardProps) => {
 						<PinSave pin={pin} />
 					</span>
 				</div>
-				<img
+				<Image
 					ref={$img}
 					className="min-h-[8rem] w-full bg-white object-cover"
+					cloudName="devmotheg"
+					publicId={pin.image}
 					alt="pin image"
-					src={`/api/images/${pin.image}`}
-					crossOrigin="anonymous"
 					onClick={() => router.push(`/user/${pin.userId._p}/pin/${pin._u}`)}
 				/>
 				<div className="absolute left-0 bottom-0 flex w-full items-center justify-between p-2">
